@@ -8,7 +8,9 @@ class SubuhInjection {
         this.alarmPhase = 0; // 0 = inactive, 1 = first alarm, 2 = second alarm (with challenge)
         this.alarmSound = document.getElementById('alarmSound');
         this.attempts = 0;
-        this.correctAnswer = 242; // 1 + 241 = 242
+        this.num1 = 0;
+        this.num2 = 0;
+        this.correctAnswer = 0;
 
         this.initializeElements();
         this.attachEventListeners();
@@ -43,6 +45,7 @@ class SubuhInjection {
         this.answerInput = document.getElementById('answerInput');
         this.errorMessage = document.getElementById('errorMessage');
         this.attemptCount = document.getElementById('attemptCount');
+        this.questionDisplay = document.getElementById('questionDisplay');
     }
 
     attachEventListeners() {
@@ -186,6 +189,7 @@ class SubuhInjection {
             this.alarmMessage.textContent = 'First alarm! Tap to snooze for 1 minute.';
         } else if (phase === 2) {
             // Second alarm - requires math challenge
+            this.generateRandomQuestion();
             this.showChallengeInterface();
             this.playAlarm();
             this.attempts = 0;
@@ -209,6 +213,18 @@ class SubuhInjection {
                     this.triggerAlarm(2);
                 }
             }, 60000); // 60000ms = 1 minute
+        }
+    }
+
+    generateRandomQuestion() {
+        // Generate two random 3-digit numbers (100-999) for addition
+        this.num1 = Math.floor(Math.random() * 900) + 100;
+        this.num2 = Math.floor(Math.random() * 900) + 100;
+        this.correctAnswer = this.num1 + this.num2;
+
+        // Update the question display
+        if (this.questionDisplay) {
+            this.questionDisplay.textContent = `${this.num1} + ${this.num2} = ?`;
         }
     }
 
