@@ -168,7 +168,7 @@ class SubuhInjection {
         this.activateBtn.style.boxShadow = '0 8px 32px rgba(0, 255, 0, 0.4)';
 
         // Show notification
-        this.showNotification('Alarm activated! Set for 5:00 AM');
+        this.showNotification('Alarm activated!');
 
         // For testing purposes, you can trigger the alarm immediately
         // Uncomment the line below to test:
