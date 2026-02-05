@@ -170,8 +170,9 @@ class SubuhInjection {
         this.activateBtn.style.background = 'linear-gradient(135deg, #00ff00, #00cc00)';
         this.activateBtn.style.boxShadow = '0 8px 32px rgba(0, 255, 0, 0.4)';
 
-        // Show notification
-        this.showNotification('Alarm activated!');
+        // Show notification with actual alarm time
+        const timeString = this.formatTime(this.alarmTime.hours, this.alarmTime.minutes);
+        this.showNotification(`⏰ Alarm activated! Set for ${timeString}`);
 
         // For testing purposes, you can trigger the alarm immediately
         // Uncomment the line below to test:
@@ -189,13 +190,14 @@ class SubuhInjection {
             this.alarmMessage.textContent = 'First alarm! Tap to snooze for 1 minute.';
         } else if (phase === 2) {
             // Second alarm - requires math challenge
-            this.generateRandomQuestion();
             this.showChallengeInterface();
             this.playAlarm();
             this.attempts = 0;
             this.attemptCount.textContent = this.attempts;
             this.answerInput.value = '';
             this.errorMessage.textContent = '';
+            // Generate question after interface is shown
+            setTimeout(() => this.generateRandomQuestion(), 100);
         }
     }
 
