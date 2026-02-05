@@ -27,7 +27,7 @@ body {
     display: flex;
     justify-content: center;
     align-items: center;
-    overflow: hidden;
+    overflow-x: hidden;
     position: relative;
 }
 
@@ -46,7 +46,7 @@ body {
     position: absolute;
     width: 100%;
     height: 100%;
-    background-image: 
+    background-image:
         linear-gradient(rgba(255, 0, 51, 0.1) 1px, transparent 1px),
         linear-gradient(90deg, rgba(255, 0, 51, 0.1) 1px, transparent 1px);
     background-size: 50px 50px;
@@ -54,8 +54,13 @@ body {
 }
 
 @keyframes gridMove {
-    0% { transform: translate(0, 0); }
-    100% { transform: translate(50px, 50px); }
+    0% {
+        transform: translate(0, 0);
+    }
+
+    100% {
+        transform: translate(50px, 50px);
+    }
 }
 
 .pulse-circle {
@@ -95,6 +100,7 @@ body {
         transform: scale(0.5);
         opacity: 0.8;
     }
+
     100% {
         transform: scale(2);
         opacity: 0;
@@ -107,7 +113,16 @@ body {
     z-index: 1;
     width: 90%;
     max-width: 600px;
-    padding: 20px;
+    padding: 15px;
+    max-height: 100vh;
+    overflow-y: auto;
+    overflow-x: hidden;
+}
+
+/* Hide scrollbar but keep functionality */
+.container::-webkit-scrollbar {
+    width: 0px;
+    background: transparent;
 }
 
 /* Interface Switching */
@@ -125,6 +140,7 @@ body {
         opacity: 0;
         transform: translateY(20px);
     }
+
     to {
         opacity: 1;
         transform: translateY(0);
@@ -134,20 +150,23 @@ body {
 /* Logo Section */
 .logo-section {
     text-align: center;
-    margin-bottom: 40px;
+    margin-bottom: 20px;
 }
 
 .danger-icon {
-    font-size: 80px;
+    font-size: 60px;
     animation: dangerPulse 1.5s ease-in-out infinite;
     filter: drop-shadow(0 0 20px var(--neon-red));
 }
 
 @keyframes dangerPulse {
-    0%, 100% {
+
+    0%,
+    100% {
         transform: scale(1);
         filter: drop-shadow(0 0 20px var(--neon-red));
     }
+
     50% {
         transform: scale(1.1);
         filter: drop-shadow(0 0 40px var(--neon-orange));
@@ -156,11 +175,11 @@ body {
 
 .title {
     font-family: 'Orbitron', sans-serif;
-    font-size: 48px;
+    font-size: 36px;
     font-weight: 900;
-    letter-spacing: 4px;
-    margin: 20px 0 10px;
-    text-shadow: 
+    letter-spacing: 3px;
+    margin: 10px 0 5px;
+    text-shadow:
         0 0 10px var(--neon-red),
         0 0 20px var(--neon-red),
         0 0 30px var(--neon-red);
@@ -169,21 +188,24 @@ body {
 
 .injection {
     color: var(--neon-orange);
-    text-shadow: 
+    text-shadow:
         0 0 10px var(--neon-orange),
         0 0 20px var(--neon-orange),
         0 0 30px var(--neon-orange);
 }
 
 @keyframes titleGlow {
-    0%, 100% {
-        text-shadow: 
+
+    0%,
+    100% {
+        text-shadow:
             0 0 10px var(--neon-red),
             0 0 20px var(--neon-red),
             0 0 30px var(--neon-red);
     }
+
     50% {
-        text-shadow: 
+        text-shadow:
             0 0 20px var(--neon-red),
             0 0 40px var(--neon-red),
             0 0 60px var(--neon-red);
@@ -191,8 +213,8 @@ body {
 }
 
 .subtitle {
-    font-size: 16px;
-    letter-spacing: 3px;
+    font-size: 13px;
+    letter-spacing: 2px;
     color: var(--neon-yellow);
     font-weight: 700;
 }
@@ -202,51 +224,110 @@ body {
     background: var(--glass-bg);
     border: 2px solid var(--glass-border);
     border-radius: 20px;
-    padding: 30px;
-    margin-bottom: 30px;
+    padding: 20px;
+    margin-bottom: 15px;
     backdrop-filter: blur(10px);
-    box-shadow: 
+    box-shadow:
         0 8px 32px rgba(255, 0, 51, 0.2),
         inset 0 0 20px rgba(255, 0, 51, 0.1);
 }
 
-.time-box {
-    text-align: center;
-    margin-bottom: 20px;
-}
-
 .label {
-    font-size: 12px;
+    font-size: 11px;
     letter-spacing: 2px;
     color: var(--text-secondary);
-    margin-bottom: 10px;
+    margin-bottom: 8px;
     font-weight: 700;
+    text-align: center;
 }
 
 .alarm-time {
     font-family: 'Orbitron', sans-serif;
-    font-size: 56px;
+    font-size: 48px;
     font-weight: 900;
     color: var(--neon-red);
-    text-shadow: 
+    text-shadow:
         0 0 20px var(--neon-red),
         0 0 40px var(--neon-red);
-    letter-spacing: 4px;
+    letter-spacing: 3px;
+    text-align: center;
+    margin-bottom: 12px;
+}
+
+/* Time Picker */
+.time-picker {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 8px;
+    margin: 15px 0;
+}
+
+.time-input {
+    width: 60px;
+    padding: 8px 5px;
+    font-family: 'Orbitron', sans-serif;
+    font-size: 20px;
+    font-weight: 700;
+    text-align: center;
+    background: rgba(0, 0, 0, 0.5);
+    border: 2px solid var(--neon-orange);
+    border-radius: 8px;
+    color: var(--neon-yellow);
+    outline: none;
+    transition: all 0.3s ease;
+}
+
+.time-input:focus {
+    border-color: var(--neon-yellow);
+    box-shadow: 0 0 15px rgba(255, 204, 0, 0.5);
+}
+
+.time-sep {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 22px;
+    font-weight: 900;
+    color: var(--neon-orange);
+    text-shadow: 0 0 10px var(--neon-orange);
+}
+
+.btn-set-time {
+    padding: 8px 16px;
+    font-family: 'Orbitron', sans-serif;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 1px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    background: linear-gradient(135deg, var(--neon-orange), var(--neon-yellow));
+    color: var(--dark-bg);
+    box-shadow: 0 4px 15px rgba(255, 102, 0, 0.4);
+    transition: all 0.3s ease;
+}
+
+.btn-set-time:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(255, 102, 0, 0.6);
+}
+
+.btn-set-time:active {
+    transform: translateY(0);
 }
 
 .status-indicator {
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: 10px;
-    font-size: 14px;
+    gap: 8px;
+    font-size: 12px;
     letter-spacing: 2px;
     font-weight: 700;
 }
 
 .status-dot {
-    width: 12px;
-    height: 12px;
+    width: 10px;
+    height: 10px;
     border-radius: 50%;
     background: #666;
     box-shadow: 0 0 10px #666;
@@ -259,8 +340,15 @@ body {
 }
 
 @keyframes statusBlink {
-    0%, 100% { opacity: 1; }
-    50% { opacity: 0.3; }
+
+    0%,
+    100% {
+        opacity: 1;
+    }
+
+    50% {
+        opacity: 0.3;
+    }
 }
 
 /* Current Time Display */
@@ -268,15 +356,15 @@ body {
     background: var(--glass-bg);
     border: 2px solid var(--glass-border);
     border-radius: 15px;
-    padding: 20px;
-    margin-bottom: 30px;
+    padding: 15px;
+    margin-bottom: 15px;
     text-align: center;
     backdrop-filter: blur(10px);
 }
 
 .current-time {
     font-family: 'Orbitron', sans-serif;
-    font-size: 36px;
+    font-size: 28px;
     font-weight: 700;
     color: var(--neon-yellow);
     text-shadow: 0 0 15px var(--neon-yellow);
@@ -288,15 +376,15 @@ body {
     background: var(--glass-bg);
     border: 2px solid var(--glass-border);
     border-radius: 15px;
-    padding: 20px;
-    margin-bottom: 30px;
+    padding: 15px;
+    margin-bottom: 15px;
     backdrop-filter: blur(10px);
 }
 
 .info-item {
     display: flex;
     justify-content: space-between;
-    padding: 12px 0;
+    padding: 8px 0;
     border-bottom: 1px solid rgba(255, 255, 255, 0.1);
 }
 
@@ -308,19 +396,23 @@ body {
     color: var(--neon-orange);
     font-weight: 700;
     letter-spacing: 1px;
+    font-size: 13px;
 }
 
 .info-value {
     color: var(--text-secondary);
     font-weight: 500;
+    font-size: 13px;
 }
 
 /* Buttons */
-.btn-primary, .btn-danger, .btn-critical {
+.btn-primary,
+.btn-danger,
+.btn-critical {
     width: 100%;
-    padding: 20px;
+    padding: 16px;
     font-family: 'Orbitron', sans-serif;
-    font-size: 20px;
+    font-size: 18px;
     font-weight: 900;
     letter-spacing: 3px;
     border: none;
@@ -329,20 +421,20 @@ body {
     transition: all 0.3s ease;
     position: relative;
     overflow: hidden;
-    margin-bottom: 20px;
+    margin-bottom: 12px;
 }
 
 .btn-primary {
     background: linear-gradient(135deg, var(--neon-red), var(--neon-orange));
     color: white;
-    box-shadow: 
+    box-shadow:
         0 8px 32px rgba(255, 0, 51, 0.4),
         0 0 20px var(--neon-red);
 }
 
 .btn-primary:hover {
     transform: translateY(-3px);
-    box-shadow: 
+    box-shadow:
         0 12px 40px rgba(255, 0, 51, 0.6),
         0 0 40px var(--neon-red);
 }
@@ -359,9 +451,12 @@ body {
 }
 
 @keyframes dangerButtonPulse {
-    0%, 100% {
+
+    0%,
+    100% {
         box-shadow: 0 8px 32px rgba(255, 0, 0, 0.4);
     }
+
     50% {
         box-shadow: 0 8px 32px rgba(255, 0, 0, 0.8);
     }
@@ -374,22 +469,25 @@ body {
 .btn-critical {
     background: linear-gradient(135deg, #ff6600, #ff0000);
     color: white;
-    box-shadow: 
+    box-shadow:
         0 8px 32px rgba(255, 102, 0, 0.6),
         0 0 30px var(--neon-orange);
     animation: criticalPulse 1s ease-in-out infinite;
 }
 
 @keyframes criticalPulse {
-    0%, 100% {
+
+    0%,
+    100% {
         transform: scale(1);
-        box-shadow: 
+        box-shadow:
             0 8px 32px rgba(255, 102, 0, 0.6),
             0 0 30px var(--neon-orange);
     }
+
     50% {
         transform: scale(1.02);
-        box-shadow: 
+        box-shadow:
             0 12px 40px rgba(255, 102, 0, 0.9),
             0 0 50px var(--neon-orange);
     }
@@ -397,14 +495,14 @@ body {
 
 .btn-icon {
     margin-right: 10px;
-    font-size: 24px;
+    font-size: 20px;
 }
 
 /* Credit */
 .credit {
     text-align: center;
-    padding: 20px;
-    font-size: 14px;
+    padding: 12px;
+    font-size: 12px;
     color: var(--text-secondary);
     letter-spacing: 1px;
 }
@@ -417,28 +515,31 @@ body {
 /* Alarm Active Interface */
 .alarm-active-header {
     text-align: center;
-    margin-bottom: 40px;
+    margin-bottom: 30px;
 }
 
 .warning-flash {
     font-family: 'Orbitron', sans-serif;
-    font-size: 24px;
+    font-size: 20px;
     font-weight: 900;
     letter-spacing: 3px;
     color: var(--neon-red);
-    padding: 15px;
+    padding: 12px;
     background: rgba(255, 0, 0, 0.2);
     border: 2px solid var(--neon-red);
     border-radius: 10px;
-    margin-bottom: 20px;
+    margin-bottom: 15px;
     animation: warningFlash 0.5s ease-in-out infinite;
 }
 
 @keyframes warningFlash {
-    0%, 100% {
+
+    0%,
+    100% {
         background: rgba(255, 0, 0, 0.2);
         box-shadow: 0 0 20px rgba(255, 0, 0, 0.5);
     }
+
     50% {
         background: rgba(255, 0, 0, 0.4);
         box-shadow: 0 0 40px rgba(255, 0, 0, 0.8);
@@ -452,35 +553,39 @@ body {
 }
 
 @keyframes criticalFlash {
-    0%, 100% {
+
+    0%,
+    100% {
         background: rgba(255, 102, 0, 0.2);
         box-shadow: 0 0 20px rgba(255, 102, 0, 0.5);
     }
+
     50% {
         background: rgba(255, 102, 0, 0.5);
         box-shadow: 0 0 60px rgba(255, 102, 0, 1);
     }
 }
 
-.alarm-title, .challenge-title {
+.alarm-title,
+.challenge-title {
     font-family: 'Orbitron', sans-serif;
-    font-size: 42px;
+    font-size: 36px;
     font-weight: 900;
     letter-spacing: 4px;
-    text-shadow: 
+    text-shadow:
         0 0 20px var(--neon-red),
         0 0 40px var(--neon-red);
-    margin-bottom: 15px;
+    margin-bottom: 12px;
 }
 
 .phase-indicator {
     display: inline-block;
-    padding: 10px 20px;
+    padding: 8px 16px;
     background: var(--glass-bg);
     border: 2px solid var(--neon-red);
     border-radius: 25px;
     font-family: 'Orbitron', sans-serif;
-    font-size: 14px;
+    font-size: 12px;
     font-weight: 700;
     letter-spacing: 2px;
     color: var(--neon-red);
@@ -497,20 +602,20 @@ body {
 .alarm-visual {
     display: flex;
     justify-content: center;
-    margin: 50px 0;
+    margin: 40px 0;
 }
 
 .alarm-circle {
     position: relative;
-    width: 200px;
-    height: 200px;
+    width: 180px;
+    height: 180px;
     display: flex;
     justify-content: center;
     align-items: center;
     background: var(--glass-bg);
     border: 4px solid var(--neon-red);
     border-radius: 50%;
-    box-shadow: 
+    box-shadow:
         0 0 40px rgba(255, 0, 0, 0.6),
         inset 0 0 40px rgba(255, 0, 0, 0.3);
 }
@@ -529,6 +634,7 @@ body {
         transform: scale(1);
         opacity: 1;
     }
+
     100% {
         transform: scale(1.5);
         opacity: 0;
@@ -536,55 +642,67 @@ body {
 }
 
 .alarm-icon {
-    font-size: 80px;
+    font-size: 70px;
     animation: shake 0.5s ease-in-out infinite;
     filter: drop-shadow(0 0 20px var(--neon-red));
 }
 
 @keyframes shake {
-    0%, 100% { transform: rotate(-15deg); }
-    50% { transform: rotate(15deg); }
+
+    0%,
+    100% {
+        transform: rotate(-15deg);
+    }
+
+    50% {
+        transform: rotate(15deg);
+    }
 }
 
 .alarm-message {
     text-align: center;
-    font-size: 20px;
+    font-size: 16px;
     color: var(--text-secondary);
-    margin-bottom: 40px;
-    padding: 20px;
+    margin-bottom: 30px;
+    padding: 15px;
     background: var(--glass-bg);
     border-radius: 15px;
     border: 1px solid var(--glass-border);
 }
 
 /* Challenge Interface */
+.challenge-header {
+    text-align: center;
+    margin-bottom: 30px;
+}
+
 .challenge-box {
     background: var(--glass-bg);
     border: 2px solid var(--neon-orange);
     border-radius: 20px;
-    padding: 40px;
-    margin: 40px 0;
+    padding: 30px;
+    margin: 30px 0;
     text-align: center;
-    box-shadow: 
+    box-shadow:
         0 8px 32px rgba(255, 102, 0, 0.4),
         inset 0 0 30px rgba(255, 102, 0, 0.1);
 }
 
 .question {
     font-family: 'Orbitron', sans-serif;
-    font-size: 48px;
+    font-size: 40px;
     font-weight: 900;
     color: var(--neon-yellow);
     text-shadow: 0 0 30px var(--neon-yellow);
-    margin-bottom: 30px;
+    margin-bottom: 25px;
     letter-spacing: 4px;
 }
 
 .answer-input {
     width: 100%;
-    padding: 20px;
+    padding: 18px;
     font-family: 'Orbitron', sans-serif;
-    font-size: 32px;
+    font-size: 28px;
     font-weight: 700;
     text-align: center;
     background: rgba(0, 0, 0, 0.5);
@@ -606,27 +724,37 @@ body {
 }
 
 .error-message {
-    margin-top: 15px;
-    font-size: 16px;
+    margin-top: 12px;
+    font-size: 14px;
     font-weight: 700;
     color: var(--neon-red);
-    min-height: 24px;
+    min-height: 20px;
     animation: errorShake 0.5s ease;
 }
 
 @keyframes errorShake {
-    0%, 100% { transform: translateX(0); }
-    25% { transform: translateX(-10px); }
-    75% { transform: translateX(10px); }
+
+    0%,
+    100% {
+        transform: translateX(0);
+    }
+
+    25% {
+        transform: translateX(-10px);
+    }
+
+    75% {
+        transform: translateX(10px);
+    }
 }
 
 .attempts-counter {
     text-align: center;
     font-family: 'Orbitron', sans-serif;
-    font-size: 18px;
+    font-size: 16px;
     font-weight: 700;
     color: var(--text-secondary);
-    padding: 15px;
+    padding: 12px;
     background: var(--glass-bg);
     border-radius: 10px;
     border: 1px solid var(--glass-border);
@@ -634,27 +762,27 @@ body {
 
 #attemptCount {
     color: var(--neon-orange);
-    font-size: 24px;
+    font-size: 20px;
 }
 
 /* Responsive Design */
 @media (max-width: 768px) {
     .title {
-        font-size: 36px;
-    }
-    
-    .alarm-time {
-        font-size: 42px;
-    }
-    
-    .current-time {
         font-size: 28px;
     }
-    
-    .question {
+
+    .alarm-time {
         font-size: 36px;
     }
-    
+
+    .current-time {
+        font-size: 24px;
+    }
+
+    .question {
+        font-size: 32px;
+    }
+
     .answer-input {
         font-size: 24px;
     }

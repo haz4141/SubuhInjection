@@ -3,17 +3,18 @@
 
 class SubuhInjection {
     constructor() {
-        this.alarmTime = { hours: 5, minutes: 0 }; // 5:00 AM
+        this.alarmTime = { hours: 5, minutes: 0 }; // Default 5:00 AM
         this.alarmActive = false;
         this.alarmPhase = 0; // 0 = inactive, 1 = first alarm, 2 = second alarm (with challenge)
         this.alarmSound = document.getElementById('alarmSound');
         this.attempts = 0;
         this.correctAnswer = 242; // 1 + 241 = 242
-        
+
         this.initializeElements();
         this.attachEventListeners();
         this.startClock();
         this.checkAlarm();
+        this.updateAlarmTimeDisplay();
     }
 
     initializeElements() {
@@ -21,13 +22,19 @@ class SubuhInjection {
         this.mainInterface = document.getElementById('mainInterface');
         this.alarmInterface = document.getElementById('alarmInterface');
         this.challengeInterface = document.getElementById('challengeInterface');
-        
+
         // Buttons
         this.activateBtn = document.getElementById('activateBtn');
         this.stopBtn = document.getElementById('stopBtn');
         this.submitBtn = document.getElementById('submitBtn');
-        
+        this.setTimeBtn = document.getElementById('setTimeBtn');
+
+        // Time inputs
+        this.hoursInput = document.getElementById('hoursInput');
+        this.minutesInput = document.getElementById('minutesInput');
+
         // Display elements
+        this.alarmTimeDisplay = document.getElementById('alarmTime');
         this.currentTimeDisplay = document.getElementById('currentTime');
         this.statusDot = document.getElementById('statusDot');
         this.statusText = document.getElementById('statusText');
@@ -42,14 +49,77 @@ class SubuhInjection {
         this.activateBtn.addEventListener('click', () => this.activateAlarm());
         this.stopBtn.addEventListener('click', () => this.handleStopButton());
         this.submitBtn.addEventListener('click', () => this.checkAnswer());
-        
+        this.setTimeBtn.addEventListener('click', () => this.setAlarmTime());
+
         // Allow Enter key to submit answer
         this.answerInput.addEventListener('keypress', (e) => {
             if (e.key === 'Enter') {
                 this.checkAnswer();
             }
         });
+
+        // Update display when time inputs change
+        this.hoursInput.addEventListener('input', () => this.validateTimeInput());
+        this.minutesInput.addEventListener('input', () => this.validateTimeInput());
     }
+
+    validateTimeInput() {
+        // Validate hours (0-23)
+        let hours = parseInt(this.hoursInput.value);
+        if (isNaN(hours) || hours < 0) {
+            this.hoursInput.value = 0;
+        } else if (hours > 23) {
+            this.hoursInput.value = 23;
+        }
+
+        // Validate minutes (0-59)
+        let minutes = parseInt(this.minutesInput.value);
+        if (isNaN(minutes) || minutes < 0) {
+            this.minutesInput.value = 0;
+        } else if (minutes > 59) {
+            this.minutesInput.value = 59;
+        }
+    }
+
+    setAlarmTime() {
+        const hours = parseInt(this.hoursInput.value);
+        const minutes = parseInt(this.minutesInput.value);
+
+        // Validate inputs
+        if (isNaN(hours) || isNaN(minutes) || hours < 0 || hours > 23 || minutes < 0 || minutes > 59) {
+            this.showNotification('❌ Invalid time! Please enter valid hours (0-23) and minutes (0-59)');
+            return;
+        }
+
+        // Update alarm time
+        this.alarmTime.hours = hours;
+        this.alarmTime.minutes = minutes;
+
+        // Update display
+        this.updateAlarmTimeDisplay();
+
+        // Show confirmation
+        const timeString = this.formatTime(hours, minutes);
+        this.showNotification(`⏰ Alarm time set to ${timeString}`);
+
+        // If alarm is already active, inform user
+        if (this.alarmActive) {
+            this.showNotification('⚠️ Alarm is active! New time will apply to next activation.');
+        }
+    }
+
+    updateAlarmTimeDisplay() {
+        const timeString = this.formatTime(this.alarmTime.hours, this.alarmTime.minutes);
+        this.alarmTimeDisplay.textContent = timeString;
+    }
+
+    formatTime(hours, minutes) {
+        const period = hours >= 12 ? 'PM' : 'AM';
+        const displayHours = hours === 0 ? 12 : (hours > 12 ? hours - 12 : hours);
+        const displayMinutes = minutes.toString().padStart(2, '0');
+        return `${displayHours}:${displayMinutes} ${period}`;
+    }
+
 
     startClock() {
         this.updateClock();
@@ -61,7 +131,7 @@ class SubuhInjection {
         const hours = now.getHours();
         const minutes = now.getMinutes();
         const seconds = now.getSeconds();
-        
+
         const formattedTime = `${this.padZero(hours)}:${this.padZero(minutes)}:${this.padZero(seconds)}`;
         this.currentTimeDisplay.textContent = formattedTime;
     }
@@ -73,15 +143,15 @@ class SubuhInjection {
     checkAlarm() {
         setInterval(() => {
             if (!this.alarmActive) return;
-            
+
             const now = new Date();
             const currentHours = now.getHours();
             const currentMinutes = now.getMinutes();
             const currentSeconds = now.getSeconds();
-            
+
             // Check if it's time for the alarm
-            if (currentHours === this.alarmTime.hours && 
-                currentMinutes === this.alarmTime.minutes && 
+            if (currentHours === this.alarmTime.hours &&
+                currentMinutes === this.alarmTime.minutes &&
                 currentSeconds === 0 &&
                 this.alarmPhase === 0) {
                 this.triggerAlarm(1);
@@ -96,10 +166,10 @@ class SubuhInjection {
         this.activateBtn.textContent = '🔥 ALARM ARMED';
         this.activateBtn.style.background = 'linear-gradient(135deg, #00ff00, #00cc00)';
         this.activateBtn.style.boxShadow = '0 8px 32px rgba(0, 255, 0, 0.4)';
-        
+
         // Show notification
         this.showNotification('Alarm activated! Set for 5:00 AM');
-        
+
         // For testing purposes, you can trigger the alarm immediately
         // Uncomment the line below to test:
         // setTimeout(() => this.triggerAlarm(1), 2000);
@@ -107,7 +177,7 @@ class SubuhInjection {
 
     triggerAlarm(phase) {
         this.alarmPhase = phase;
-        
+
         if (phase === 1) {
             // First alarm - can be snoozed
             this.showAlarmInterface();
@@ -132,7 +202,7 @@ class SubuhInjection {
             this.alarmPhase = 0;
             this.showMainInterface();
             this.showNotification('Snoozed for 1 minute...');
-            
+
             // Schedule second alarm after 1 minute
             setTimeout(() => {
                 if (this.alarmActive) {
@@ -146,7 +216,7 @@ class SubuhInjection {
         const userAnswer = parseInt(this.answerInput.value);
         this.attempts++;
         this.attemptCount.textContent = this.attempts;
-        
+
         if (userAnswer === this.correctAnswer) {
             // Correct answer!
             this.stopAlarm();
@@ -161,7 +231,7 @@ class SubuhInjection {
             this.errorMessage.textContent = `❌ Wrong! Try again. (Attempt ${this.attempts})`;
             this.answerInput.value = '';
             this.answerInput.focus();
-            
+
             // Shake effect
             this.challengeInterface.style.animation = 'none';
             setTimeout(() => {
@@ -202,7 +272,7 @@ class SubuhInjection {
         this.mainInterface.classList.remove('active');
         this.alarmInterface.classList.remove('active');
         this.challengeInterface.classList.add('active');
-        
+
         // Focus on input after a short delay
         setTimeout(() => {
             this.answerInput.focus();
@@ -238,7 +308,7 @@ class SubuhInjection {
         `;
         notification.textContent = message;
         document.body.appendChild(notification);
-        
+
         // Remove after 3 seconds
         setTimeout(() => {
             notification.style.animation = 'slideOut 0.5s ease';

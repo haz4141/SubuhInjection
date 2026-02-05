@@ -8,10 +8,18 @@ SubuhInjection is a powerful, dangerous-looking alarm application designed to he
 
 ## ⚡ Features
 
+### ⏰ Customizable Alarm Time
+
+- **Set your own alarm time** - Default is 5:00 AM (Subuh prayer time)
+- **Adjustable for different locations** - Every place has different Subuh times
+- **24-hour format input** - Hours (0-23) and Minutes (0-59)
+- **Real-time display update** - See your alarm time instantly
+- **Easy to change** - Simple hour and minute inputs with SET TIME button
+
 ### 🎯 Two-Phase Alarm System
 
 **PHASE 1: Initial Wake Call**
-- Alarm triggers at exactly 5:00 AM
+- Alarm triggers at your set time
 - Plays heavy alarm sound (`heavyalarm.mp3`)
 - Can be snoozed ONCE for 1 minute
 - Dangerous red warning interface
@@ -22,6 +30,13 @@ SubuhInjection is a powerful, dangerous-looking alarm application designed to he
 - Alarm continues until correct answer is entered
 - Tracks number of attempts
 - Critical orange warning interface
+
+### 📱 Progressive Web App (PWA)
+
+- **Installable on mobile devices** - Works like a native app
+- **Offline support** - Service worker caching
+- **Add to home screen** - Quick access from your phone
+- **Ready for Play Store** - Can be published as TWA (Trusted Web Activity)
 
 ### 🎨 Modern & Dangerous UI
 
@@ -46,22 +61,66 @@ SubuhInjection is a powerful, dangerous-looking alarm application designed to he
 1. **Open the Application**
    - Double-click `index.html` to open in your browser
    - Or use a local server for best performance
+   - Or install as PWA on your mobile device
 
-2. **Activate the Alarm**
+2. **Set Your Alarm Time** (Optional)
+   - Default is 5:00 AM (Subuh prayer time)
+   - Enter your desired hours (0-23) and minutes (0-59)
+   - Click **"⏰ SET TIME"** button
+   - The TARGET TIME display will update
+
+3. **Activate the Alarm**
    - Click the **"🔥 ACTIVATE ALARM"** button
    - Status will change to **"ARMED"**
-   - Alarm is now set for 5:00 AM
+   - Alarm is now set for your chosen time
 
-3. **When Alarm Triggers (5:00 AM)**
+4. **When Alarm Triggers**
    - **Phase 1** will activate with loud alarm
    - Click **"STOP ALARM"** to snooze for 1 minute
    - Get ready - Phase 2 is coming!
 
-4. **Phase 2 - Math Challenge**
+5. **Phase 2 - Math Challenge**
    - After 1 minute, Phase 2 activates
    - Solve the math problem: **1 + 241 = ?**
    - Enter **242** to disable the alarm
    - Wrong answers will keep the alarm ringing!
+
+## 📱 Installing as Mobile App
+
+### On Android (Chrome)
+1. Open the app in Chrome browser
+2. Tap the menu (⋮) and select "Add to Home screen"
+3. The app will install like a native app
+4. Open from your home screen
+
+### On iOS (Safari)
+1. Open the app in Safari
+2. Tap the Share button
+3. Select "Add to Home Screen"
+4. The app icon will appear on your home screen
+
+## 🚀 Publishing to Play Store
+
+This app is ready to be published as a **Trusted Web Activity (TWA)** on Google Play Store:
+
+1. **Requirements:**
+   - Host the app on HTTPS (use GitHub Pages, Vercel, or Netlify)
+   - Create app icons (192x192 and 512x512 PNG)
+   - Use Android Studio with Bubblewrap or PWABuilder
+
+2. **Recommended Tools:**
+   - **PWABuilder** (https://www.pwabuilder.com/) - Easiest method
+   - **Bubblewrap** - Google's official TWA tool
+   - Upload your hosted URL and generate Android package
+
+3. **Steps:**
+   - Host the PWA on a secure domain
+   - Generate Android package using PWABuilder
+   - Sign the APK/AAB with your keystore
+   - Upload to Google Play Console
+   - Fill in app details and publish
+
+**Note:** You'll need app icons. Create 192x192px and 512x512px PNG icons with the warning symbol and alarm theme to match the app design.
 
 ## 🛠️ Technical Details
 

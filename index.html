@@ -1,14 +1,33 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="description"
+        content="SubuhInjection - Extreme wake-up system for Subuh prayer with two-phase alarm and math challenge">
+    <meta name="theme-color" content="#ff0033">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="SubuhInjection">
+
     <title>SubuhInjection - Wake Up System</title>
+
+    <!-- PWA Manifest -->
+    <link rel="manifest" href="manifest.json">
+
+    <!-- Favicon and App Icons -->
+    <link rel="icon" type="image/png" sizes="192x192" href="icon-192.png">
+    <link rel="apple-touch-icon" href="icon-192.png">
+
     <link rel="stylesheet" href="style.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Rajdhani:wght@300;500;700&display=swap" rel="stylesheet">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Rajdhani:wght@300;500;700&display=swap"
+        rel="stylesheet">
 </head>
+
 <body>
     <div class="background-animation">
         <div class="danger-grid"></div>
@@ -27,10 +46,17 @@
             </div>
 
             <div class="alarm-display">
-                <div class="time-box">
-                    <div class="label">TARGET TIME</div>
-                    <div class="alarm-time" id="alarmTime">05:00 AM</div>
+                <div class="label">TARGET TIME</div>
+                <div class="alarm-time" id="alarmTime">05:00 AM</div>
+
+                <div class="time-picker">
+                    <input type="number" id="hoursInput" min="0" max="23" value="5" class="time-input" placeholder="HH">
+                    <span class="time-sep">:</span>
+                    <input type="number" id="minutesInput" min="0" max="59" value="0" class="time-input"
+                        placeholder="MM">
+                    <button class="btn-set-time" id="setTimeBtn">SET</button>
                 </div>
+
                 <div class="status-indicator">
                     <div class="status-dot" id="statusDot"></div>
                     <span id="statusText">STANDBY</span>
@@ -56,6 +82,8 @@
                     <span class="info-value">Math Challenge Lock</span>
                 </div>
             </div>
+
+
 
             <button class="btn-primary" id="activateBtn">
                 <span class="btn-icon">🔥</span>
@@ -120,5 +148,21 @@
     </audio>
 
     <script src="script.js"></script>
+
+    <!-- PWA Service Worker Registration -->
+    <script>
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('/service-worker.js')
+                    .then(registration => {
+                        console.log('ServiceWorker registered:', registration);
+                    })
+                    .catch(error => {
+                        console.log('ServiceWorker registration failed:', error);
+                    });
+            });
+        }
+    </script>
 </body>
+
 </html>
