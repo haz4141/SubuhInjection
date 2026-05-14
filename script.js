@@ -8,6 +8,14 @@ class SubuhInjection {
         this.alarmPhase = 0; // 0 = inactive, 1 = first alarm, 2 = second alarm (with challenge)
         this.alarmSound = document.getElementById('alarmSound');
         this.attempts = 0;
+
+        // Pool of loud alarm sounds — random each trigger so it never gets boring
+        this.alarmSounds = [
+            'heavyalarm.mp3',
+            'alarm2.mp3',
+            'alarm3.mp3'
+        ];
+        this.currentSoundIndex = -1; // tracks which sound is playing
         this.num1 = 0;
         this.num2 = 0;
         this.correctAnswer = 0;
@@ -259,7 +267,18 @@ class SubuhInjection {
     }
 
     playAlarm() {
+        // Pick a random alarm sound — different every time!
+        let newIndex;
+        do {
+            newIndex = Math.floor(Math.random() * this.alarmSounds.length);
+        } while (newIndex === this.currentSoundIndex && this.alarmSounds.length > 1);
+        this.currentSoundIndex = newIndex;
+
+        const chosenSound = this.alarmSounds[this.currentSoundIndex];
+        this.alarmSound.src = chosenSound;
         this.alarmSound.currentTime = 0;
+        this.alarmSound.load();
+
         this.alarmSound.play().catch(error => {
             console.error('Error playing alarm:', error);
             // Fallback: try to play again after user interaction
